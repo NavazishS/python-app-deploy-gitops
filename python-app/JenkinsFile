@@ -14,7 +14,16 @@ pipeline {
       steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
-         sh 'cd python-app && docker build -t my-python-web-service . && docker run -p 8081:80 my-python-web-service && curl http://13.232.56.252:8081/ '
+        sh '''
+            cd python-app
+            docker build -t my-python-web-service .
+            CONTAINER_ID=$(docker run -d -p 8081:80 my-python-web-service)
+            sleep 10  # Wait for the web service to start
+            docker ps
+            CURL_OUTPUT=$(curl -s http://127.0.0.1:8081)
+            echo "Curl Output: $CURL_OUTPUT"
+            docker stop $CONTAINER_ID
+        ''' 
       }
     }
     stage('Build and Push Docker Image') {
