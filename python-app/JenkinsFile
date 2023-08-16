@@ -3,7 +3,8 @@ pipeline {
     docker {
       // registryUrl 'https://docker.io'
       // registryCredentialsId 'dockerhub-cred'
-      image 'nawdocker/python:3.9-slim'
+      // image 'nawdocker/python:3.9-slim'
+      image 'nawdocker/docker-curl:latest'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // In case your docker agent is created on the same host
       // args '-v $HOME/.m2:/root/.m2'
     }
