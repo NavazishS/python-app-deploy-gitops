@@ -1,0 +1,55 @@
+pipeline {
+  agent {
+    docker {
+      // registryUrl 'https://docker.io'
+      // registryCredentialsId 'dockerhub-cred'
+      image 'nawdocker/python:3.9-slim'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // In case your docker agent is created on the same host
+      // args '-v $HOME/.m2:/root/.m2'
+    }
+  }
+  stages {
+    stage('Build and Test') {
+      steps {
+        sh 'ls -ltr'
+        // build the project and create a JAR file
+         sh 'cd python-app && docker build -t my-python-web-service . && docker run -p 8081:80 my-python-web-service && curl http://13.232.56.252:8081/ '
+      }
+    }
+    stage('Build and Push Docker Image') {
+      environment {
+        DOCKER_IMAGE = "nawdocker/python:3.9-slim-${BUILD_NUMBER}"
+        REGISTRY_CREDENTIALS = credentials('docker-cred')
+      }
+      steps {
+        script {
+            sh 'cd python-app && docker build -t ${DOCKER_IMAGE} .'
+            def dockerImage = docker.image("${DOCKER_IMAGE}")
+            docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+            dockerImage.push()
+            }
+        }
+      }
+    }
+    stage('Update Deployment File') {
+        environment {
+            GIT_REPO_NAME = "gitops-python-app"
+            GIT_USER_NAME = "NavazishS"
+        }
+        steps {
+            withCredentials([string(credentialsId: 'jenkins-github', variable: 'GITHUB_TOKEN')]) {
+                sh """
+                    git config user.email "mailmenaw@gmail.com"
+                    git config user.name "NawazishS"
+                    BUILD_NUMBER=${BUILD_NUMBER}
+                    sed -i "s|image: nawdocker/python:[^[:space:]]*|image: nawdocker/python:3.9-slim-${BUILD_NUMBER}|g" python-app-manifests/deployment.yml
+                    git add python-app-manifests/deployment.yml
+                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                """
+            }
+        }
+    }
+  }
+}
+
