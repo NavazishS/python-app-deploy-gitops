@@ -1,0 +1,14 @@
+Defining a Service to expose your web service internally within the Minikube cluster
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-python-service
+spec:
+  selector:
+    app: my-python-app  # Should match the selector defined in your Deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
