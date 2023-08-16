@@ -7,6 +7,9 @@ pipeline {
       image 'nawdocker/docker-curl:v1'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // In case your docker agent is created on the same host
       // args '-v $HOME/.m2:/root/.m2'
+      environment {
+        HOST_IP = sh(script: "hostname -i | awk '{print \$1}'", returnStdout: true).trim()
+      }
     }
   }
   stages {
@@ -15,8 +18,7 @@ pipeline {
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh """
-                HOST_IP=\$(hostname -i | awk '{print \$1}')
-                echo 'Host IP: \$HOST_IP'
+                echo 'Host IP: \${env.HOST_IP}'
                 cd python-app
                 docker build -t my-python-web-service .
                 CONTAINER_ID=\$(docker run -d -p 8081:80 my-python-web-service)
