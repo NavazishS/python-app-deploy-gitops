@@ -11,19 +11,22 @@ pipeline {
   }
   stages {
     stage('Build and Test') {
-      steps {
+    steps {
         sh 'ls -ltr'
         // build the project and create a JAR file
-        sh '''
-            cd python-app
-            docker build -t my-python-web-service .
-            CONTAINER_ID=$(docker run -d -p 8081:80 my-python-web-service)
-            sleep 10  # Wait for the web service to start
-            docker ps
-            CURL_OUTPUT=$(curl -s http://127.0.0.1:8081)
-            echo "Curl Output: $CURL_OUTPUT"
-            docker stop $CONTAINER_ID
-        ''' 
+        script {
+            def hostIp = sh(returnStdout: true, script: 'hostname -I | awk "{print \$1}"').trim()
+            sh """
+                cd python-app
+                docker build -t my-python-web-service .
+                CONTAINER_ID=\$(docker run -d -p 8081:80 my-python-web-service)
+                sleep 10  # Wait for the web service to start
+                docker ps
+                CURL_OUTPUT=\$(curl -s http://${hostIp}:8081)
+                echo "Curl Output: \$CURL_OUTPUT"
+                docker stop \$CONTAINER_ID
+            """
+        }
       }
     }
     stage('Build and Push Docker Image') {
