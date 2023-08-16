@@ -15,6 +15,7 @@ pipeline {
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh """
+                HOST_IP=$(hostname -I | awk '{print $1}')
                 echo 'Host IP: $HOST_IP'
                 cd python-app
                 docker build -t my-python-web-service .
