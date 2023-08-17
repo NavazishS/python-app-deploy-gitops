@@ -42,7 +42,7 @@ pipeline {
     }
     stage('Update Deployment File') {
         environment {
-            GIT_REPO_NAME = "gitops-python-app"
+            GIT_REPO_NAME = "python-app-deploy-gitops"
             GIT_USER_NAME = "NavazishS"
         }
         steps {
