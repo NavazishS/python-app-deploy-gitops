@@ -15,6 +15,7 @@ pipeline {
   stages {
     stage('Build and Test') {
     steps {
+        cleanWs() // Clean the workspace
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh '''
@@ -51,6 +52,9 @@ pipeline {
         steps {
             withCredentials([string(credentialsId: 'jenkins-github', variable: 'GITHUB_TOKEN')]) {
                 sh """
+                    git init
+                    git config --global --add safe.directory /var/lib/jenkins/workspace/python-app-deploy-gitops
+                    git fetch --all
                     git config user.email "mailmenaw@gmail.com"
                     git config user.name "NawazishS"
                     BUILD_NUMBER=${BUILD_NUMBER}
