@@ -9,13 +9,9 @@ pipeline {
       // args '-v $HOME/.m2:/root/.m2'
     }
   }
-  environment {
-    HOST_IP = sh(script: "hostname -I | awk '{print \$1}'", returnStdout: true).trim()
-  }
   stages {
     stage('Build and Test') {
     steps {
-        cleanWs() // Clean the workspace
         sh 'ls -ltr'
         // build the project and create a JAR file
         sh '''
@@ -64,6 +60,7 @@ pipeline {
                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 """
             }
+        cleanWs() // Clean the workspace
         }
     }
   }
