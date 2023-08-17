@@ -22,7 +22,7 @@ This repository demonstrates a GitOps-style CI/CD pipeline for deploying a Pytho
 
 ### SonarQube Analysis
 
-- The build triggers a SonarQube analysis to ensure code quality and detect issues.
+- Not implemented in the current solution but this  SonarQube analysis to ensure code quality and detect issues.
 
 ### Docker Image Creation
 

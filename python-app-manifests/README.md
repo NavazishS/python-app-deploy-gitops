@@ -14,18 +14,20 @@ Apply the Deployment manifest:
 
    ```bash
    kubectl apply -f deployment.yaml
+```
 
 Apply the Service manifest:
 
    ```bash 
    kubectl apply -f service.yaml
-
+```
 ##
 Accessing Your Web Service
 Once the deployment is successful, you can access your web service within the Minikube cluster using the Service's Node IP.
 
 ## Cleaning up
+```bash
 kubectl delete deployment my-python-app
 kubectl delete service my-python-service
-
+```
 
