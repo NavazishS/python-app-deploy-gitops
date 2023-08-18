@@ -56,15 +56,19 @@ This repository demonstrates a GitOps-style CI/CD pipeline for deploying a Pytho
   - 2.1 Add your actual Jenkins host IP in the below line
     ```bash
     CURL_OUTPUT=$(curl -s http://<Jenkins_Host_IP>:8081)
-  - 2.2 Add Dockerhub credentials as
+  - 2.2 Update DOCKER_IMAGE  with <Your_Docker_Repo_Name/Image_Name:Tag_Name> in Global variable section from JenkinsFile 
+  - 2.3 Update GIT_REPO_NAME  with your github repository name in Global variable section from JenkinsFile 
+  - 2.4 Update GIT_USER_NAME  with your github username in Global variable section from JenkinsFile
+ 
+  - 2.5 Configure Dockerhub credentials with below values from browser `http://<Jenkins_Host_IP>:8080/manage/credentials/store/system/domain/_/`
 
      ```bash
-     Type='Username and password', Id='docker-cred', Username=<YOUR_DOCKERHUB_USERNAME>, Password=<YOUR_DOCKERHUB_PASSWORD> 
-  - 2.3 Add Github credentials as
+     Type='Username and password', Id='docker-cred', Username=<YOUR_DOCKERHUB_USERNAME>, Password=<YOUR_DOCKERHUB_PASSWORD>
+  - 2.6 Configure Github credentials with below values from browser  `http://<Jenkins_Host_IP>:8080/manage/credentials/store/system/domain/_/`
 
      ```yaml
      Type='Secret text', Id='jenkins-github', Secret=<YOUR_GITHUB_PAT_TOKEN_WITH_REQUIRED_ACCESS>
-  - 2.4 Update GIT_USER_NAME  with your github username 
+
 
 
 3. **Run the Pipeline:**
