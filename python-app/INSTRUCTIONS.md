@@ -76,4 +76,7 @@ This repository demonstrates a GitOps-style CI/CD pipeline for deploying a Pytho
   - 3.1 Make changes to the source code and push them to the Git repository.
   - 3.2 Observe the pipeline stages running automatically.
 
-Congratulations! Now you can access your web service result with `curl http://<pod-ip-address>:<Nodeport>`
+Congratulations! Now you can access your web service result with `curl http://<minikube-host-ip-address>:<Nodeport>` as shown below.
+**Example Result**
+![Python-app-output](https://github.com/NavazishS/python-app-deploy-gitops/assets/72895399/d5e1dac9-bb29-40fd-9a9d-9a2a37441d2e)
+![argocd-app-status](https://github.com/NavazishS/python-app-deploy-gitops/assets/72895399/bc398b84-5de7-4a86-9865-aa1456d50b51)
