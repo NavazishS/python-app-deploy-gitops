@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: my-python-container
-        image: nawdocker/python:3.9-slim-23  # Replace with your Docker image name
+        image: nawdocker/python:3.9-slim-24  # Replace with your Docker image name
         ports:
         - containerPort: 80
