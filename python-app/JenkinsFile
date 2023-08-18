@@ -1,25 +1,21 @@
 pipeline {
   agent {
     docker {
-      // registryUrl 'https://docker.io'
-      // registryCredentialsId 'dockerhub-cred'
-      // image 'nawdocker/python:3.9-slim'
       image 'nawdocker/docker-curl:v1'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // In case your docker agent is created on the same host
-      // args '-v $HOME/.m2:/root/.m2'
     }
   }
   stages {
     stage('Build and Test') {
     steps {
         sh 'ls -ltr'
-        // build the project and create a JAR file
+        // build the application container an run to see the test results.
         sh '''
             cd python-app
             docker build -t my-python-web-service .
             CONTAINER_ID=$(docker run -d -p 8081:80 my-python-web-service)
             sleep 10  # Wait for the web service to start
-            CURL_OUTPUT=$(curl -s http://13.233.122.113:8081)
+            CURL_OUTPUT=$(curl -s http://65.2.153.167:8081)
             echo "Curl Output: $CURL_OUTPUT"
             docker stop $CONTAINER_ID
            '''

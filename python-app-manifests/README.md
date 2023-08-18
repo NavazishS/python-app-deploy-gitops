@@ -21,9 +21,9 @@ Apply the Service manifest:
    ```bash 
    kubectl apply -f service.yaml
 ```
-##
-Accessing Your Web Service
-Once the deployment is successful, you can access your web service within the Minikube cluster using the Service's Node IP.
+
+## Accessing Your Web Service
+Once the deployment is successful, you can access your web service within the Minikube cluster using the Service's PodIP:NodePort.
 
 ## Cleaning up
 ```bash

@@ -11,7 +11,7 @@ COPY . /app
 RUN pip install Flask
 
 # Run the hostname -I command and store the output in an environment variable
-RUN export HOST_IP=$(hostname -I)
+RUN export HOST_IP=$(hostname -i)
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
