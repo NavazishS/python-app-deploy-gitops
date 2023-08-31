@@ -47,6 +47,7 @@ You can use a combination of AWS, Minikube, and Python to deploy The Responding 
 7. **Run the Jenkins pipeline:**
    - 7.1 Trigger the Jenkins pipeline to start the CI/CD process for the Java application.
    - 7.2 Monitor the pipeline stages and fix any issues that arise.
+
 **Note:**Please note that below stages are not included in the current implementation as  shown in the CI/CD workflow diagram.
    - Static Code Analysis
    - End-to-End Test cases

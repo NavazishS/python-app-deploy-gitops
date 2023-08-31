@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       image 'nawdocker/docker-curl:v1'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // In case your docker agent is created on the same host
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // In case your docker agent is created on the same host for speaking to docker daemon for the creation of container
     }
   }
   environment {
@@ -20,10 +20,9 @@ pipeline {
         sh '''
             cd python-app
             docker build -t my-python-web-service .
-            CONTAINER_ID=$(docker run -d -p 8081:80 -e HOST_IP=$HOST_IP my-python-web-service)
-            echo "$HOST_IP"
+            CONTAINER_ID=$(docker run -d -p 8081:80 my-python-web-service)
             sleep 10  # Wait for the web service to start
-            CURL_OUTPUT=$(curl -s http://65.2.153.167:8081)
+            CURL_OUTPUT=$(curl -s http://13.233.101.242:8081)
             echo "Curl Output: $CURL_OUTPUT"
             docker stop $CONTAINER_ID
            '''

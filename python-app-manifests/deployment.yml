@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: my-python-app
 spec:
-  replicas: 1  # Adjust the number of replicas as needed
+  replicas: 2  # Adjust the number of replicas as needed
   selector:
     matchLabels:
       app: my-python-app
